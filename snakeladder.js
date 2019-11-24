@@ -5,16 +5,19 @@ window.rollDice = ()=>{
   }
   const max = 6;
   const roll = Math.ceil(Math.random() * max);
+  console.log("You rolled", roll);
   let currentPlayer = players[currentPlayerTurn];
   currentPlayer.position += roll;
   ladders.forEach(ladder=>{
     if (ladder.start === currentPlayer.position) {
+      console.log("You stepped on a ladder!");
       currentPlayer.position = ladder.end;
     }
   });
 
-  if (currentPlayer.position === position) {
-    win = true;
+  if (currentPlayer.position >= position) {
+    console.log("Player has won!");
+    hasWon = true;
   }
   if (currentPlayer.position === position) {
     const diff = currentPlayer.position - position;
@@ -30,10 +33,10 @@ window.rollDice = ()=>{
 
 const players = [{
   position: 0,
-  color: "yellow"
+  color: "purple"
 },{
   position: 0,
-  color: "purple"
+  color: "yellow"
 }];
 
 let currentPlayerTurn = 0;
@@ -44,17 +47,17 @@ const board = [];
 let position = 0;
 let blackSquare = false;
 const ladders = [{
-  start: 8,
+  start: 7,
+  end: 14
+},{
+  start: 14,
+  end: 4
+},{
+  start: 18,
+  end: 23
+},{
+  start: 22,
   end: 15
-},{
-  start: 15,
-  end: 5
-},{
-  start: 19,
-  end: 24
-},{
-  start: 23,
-  end: 16
 }];
 
 for (var y = height; y >= 0; y--) {
@@ -90,6 +93,7 @@ const renderBoard = ()=>{
   });
 
   ladders.forEach(ladder=>{
+
     let startPos = {x:0,y:0};
     let endPos = {x:0,y:0};
 
